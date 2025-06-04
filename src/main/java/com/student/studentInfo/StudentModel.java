@@ -9,10 +9,11 @@ public class StudentModel {
     private String age;
     private String course;
 
-//    public StudentModel(){
-//    }
+    public StudentModel() {
+        this.id = UUID.randomUUID().toString(); // set ID here
+    }
 public StudentModel(String name, String age, String course) {
-    this.id= UUID.randomUUID().toString();
+    this();
     this.name = name;
     this.age = age;
     this.course = course;

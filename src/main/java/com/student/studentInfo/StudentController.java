@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/students")
+@CrossOrigin("http://localhost:5173")
 
 public class StudentController {
    List<StudentModel> studentList=new ArrayList<>();
@@ -17,12 +18,13 @@ public class StudentController {
     }
 
     @PostMapping
-    public String addStudent(@RequestBody StudentModel student){
+    public StudentModel addStudent(@RequestBody StudentModel student){
         studentList.add(student);
-     return "student Added: " + student.getName();
+        return student;
     }
 
-        @DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
         public String deleteStudent(@PathVariable String id){
 
             for(StudentModel student:studentList){
