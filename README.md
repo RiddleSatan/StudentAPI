@@ -31,8 +31,75 @@ Represents a student with the following properties:
 ### Constructor
 
 ```java
-public StudentModel(String name, String age, String course)
+public StudentModel(String name, String age, String course);
 ```
+
+# 📘 Why is a Non-Parameterized Constructor Needed in `StudentModel.java`?
+
+In your `StudentModel` class, the **non-parameterized (default) constructor** is important for several key reasons:
+
+---
+
+## 🧱 1. Frameworks like Spring and Jackson Need It
+
+When using `@RequestBody` in Spring Boot:
+
+```java
+@PostMapping("/add")
+public String addStudent(@RequestBody StudentModel student) {
+    ...
+}
+```
+
+- Jackson (the library used to convert JSON into Java objects) uses **reflection** to create the object.
+- It **requires a no-arg constructor** to create the object before setting its properties.
+
+If the no-arg constructor is missing, you’ll get errors like:
+
+> `"Cannot construct instance of StudentModel: no suitable constructor found"`
+
+---
+
+## 🔁 2. Your Parameterized Constructor Uses `this()`
+
+```java
+public StudentModel(String name, String age, String course) {
+    this(); // Calls the no-arg constructor to initialize `id`
+    ...
+}
+```
+
+- This chaining means your parameterized constructor **depends on the existence** of the no-arg constructor.
+- Without the no-arg constructor, `this()` would cause a compile-time error.
+
+---
+
+## 🧪 3. Useful for Manual Object Creation
+
+Having a no-arg constructor allows object creation like this:
+
+```java
+StudentModel student = new StudentModel();
+student.setName("Riddle");
+student.setAge(21);
+student.setCourse("CS");
+```
+
+This is useful during testing or when working in simple setups without constructors.
+
+---
+
+## ✅ Summary
+
+| Reason | Explanation |
+|--------|-------------|
+| Jackson / Spring | Uses reflection to instantiate objects and requires a no-arg constructor |
+| Constructor chaining | Your own constructor calls the default one via `this()` |
+| Manual creation | Useful for creating and modifying object fields step-by-step |
+
+> 🔑 **Always include a no-arg constructor** in Java POJOs when working with Spring Boot, Jackson, or similar frameworks.
+
+
 
 - Automatically assigns a unique UUID to `id`.
 
