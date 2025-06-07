@@ -1,6 +1,7 @@
 package com.student.studentInfo;
 
 
+import com.student.studentInfo.model.StudentModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
