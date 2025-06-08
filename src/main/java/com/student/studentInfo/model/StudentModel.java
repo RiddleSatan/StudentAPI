@@ -23,10 +23,10 @@ public class StudentModel {
             allocationSize = 1,
             sequenceName = "student_sequence_name"
     )
-    private String id;
+    private Long id;
 
     private String name;
-    private String age;
+    private int age;
 
     @Column(name = "course_enrolled")
     private String course;
@@ -43,7 +43,7 @@ public class StudentModel {
 
     public StudentModel() {
     }
-public StudentModel(String name, String age, String course) {
+public StudentModel(String name, int age, String course) {
     this.name = name;
     this.age = age;
     this.course = course;
@@ -53,7 +53,7 @@ public StudentModel(String name, String age, String course) {
         this.name=name;
     }
    public void setAge(int age){
-        this.age=Integer.toString(age);
+        this.age=age;
     }
 
   public  void setCourse(String course){
@@ -67,7 +67,7 @@ public StudentModel(String name, String age, String course) {
         return this.name;
     }
 
-    public String getAge(){
+    public int getAge(){
         return this.age;
     }
 
@@ -75,7 +75,7 @@ public StudentModel(String name, String age, String course) {
         return this.course;
     }
 
-    public String getId(){
+    public Long getId(){
     return this.id;
     }
 
