@@ -50,18 +50,6 @@ public class StudentController {
 
         StudentModel updated= studentService.updateStudent(id,updatedStudent);
          return ResponseEntity.ok("The student with ID:"+updated.getId()+" and Name: "+updated.getName() +" Has been Successfully Updated");
-//      Optional<StudentModel> existingStudentOptional=studentRepository.findById(id);
-//      if(existingStudentOptional.isPresent()){
-//        StudentModel existingStudent=existingStudentOptional.get();
-//        existingStudent.setName(updatedStudent.getName());
-//        existingStudent.setAge(updatedStudent.getAge());
-//        existingStudent.setEmail(updatedStudent.getEmail());
-//        existingStudent.setCourse(updatedStudent.getCourse());
-//        studentRepository.save(existingStudent);
-//        return ResponseEntity.ok("The student with ID:"+existingStudent.getId()+" and Name: "+existingStudent.getName() +" Has been Successfully Updated");
-//      }else{
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The Student with ID: "+ id+" Not found");
-//      }
     }
 
 
