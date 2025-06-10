@@ -84,12 +84,15 @@ Having a no-arg constructor allows object creation like this:
 
 ```java
 StudentModel student = new StudentModel();
+
 student.
 
 setName("Riddle");
+
 student.
 
 setAge(21);
+
 student.
 
 setCourse("CS");
@@ -284,10 +287,6 @@ String msg = studentService.deleteAll();
 
 Base URL
 /students
-
-```
-
----
 
 Maps HTTP requests to service layer methods.
 
