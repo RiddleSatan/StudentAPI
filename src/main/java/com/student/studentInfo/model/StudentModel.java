@@ -3,6 +3,7 @@ package com.student.studentInfo.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 
@@ -31,7 +32,7 @@ public class StudentModel {
     @Column(name = "course_enrolled")
     private String course;
 
-//    @Column(unique = true)
+    //    @Column(unique = true)
     private String email;
 
 
@@ -43,43 +44,46 @@ public class StudentModel {
 
     public StudentModel() {
     }
-public StudentModel(String name, int age, String course) {
-    this.name = name;
-    this.age = age;
-    this.course = course;
-}
 
-   public void setName(String name){
-        this.name=name;
-    }
-   public void setAge(int age){
-        this.age=age;
+    public StudentModel(String name, int age, String course) {
+        this.name = name;
+        this.age = age;
+        this.course = course;
     }
 
-  public  void setCourse(String course){
-        this.course=course;
-    }
-    public void setEmail(String email){
-        this.email=email;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getName(){
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
         return this.name;
     }
 
-    public int getAge(){
+    public int getAge() {
         return this.age;
     }
 
-    public String getCourse(){
+    public String getCourse() {
         return this.course;
     }
 
-    public Long getId(){
-    return this.id;
+    public Long getId() {
+        return this.id;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
 

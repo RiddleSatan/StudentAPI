@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.rmi.StubNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,16 +34,13 @@ public class StudentService {
         StudentModel existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with id: " + id + "not found"));
 
-
         existingStudent.setName(updatedStudent.getName());
         existingStudent.setAge(updatedStudent.getAge());
         existingStudent.setEmail(updatedStudent.getEmail());
         existingStudent.setCourse(updatedStudent.getCourse());
-
         return studentRepository.save(existingStudent);
-
-
     }
+
 
     public ResponseEntity<String> deleteStudent(Long id) {
 
