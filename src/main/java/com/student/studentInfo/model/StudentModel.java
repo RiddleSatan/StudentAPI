@@ -35,6 +35,7 @@ public class StudentModel {
     //    @Column(unique = true)
     private String email;
 
+    private int accountNumber;
 
     @CreationTimestamp
     private LocalDateTime dateCreated;
@@ -67,6 +68,10 @@ public class StudentModel {
         this.email = email;
     }
 
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -87,5 +92,8 @@ public class StudentModel {
         return this.email;
     }
 
+    public int getAccountNumber() {
+        return this.accountNumber;
+    }
 
 }
