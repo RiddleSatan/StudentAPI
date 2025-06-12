@@ -1,6 +1,7 @@
 package com.student.studentInfo;
 
 
+import com.student.studentInfo.dto.StudentDto;
 import com.student.studentInfo.model.StudentModel;
 import com.student.studentInfo.repository.StudentRepository;
 import com.student.studentInfo.service.StudentService;
@@ -31,14 +32,13 @@ public class StudentController {
     }
 
     @GetMapping(path = "find/{id}")
-    public StudentModel getStudent(@PathVariable Long id) {
-        return studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student with ID:" + id + "not found"));
+    public StudentDto getStudent(@PathVariable Long id) {
+        return studentService.getStudent(id);
     }
 
 
     @PostMapping(path = "add")
-    public StudentModel addStudent(@RequestBody StudentModel student) {
+    public StudentDto addStudent(@RequestBody StudentModel student) {
 
         return studentService.addStudent(student);
     }
@@ -46,7 +46,7 @@ public class StudentController {
     @PutMapping(path = "update/{id}")
     public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody StudentModel updatedStudent) {
 
-        StudentModel updated = studentService.updateStudent(id, updatedStudent);
+        StudentDto updated = studentService.updateStudent(id, updatedStudent);
         return ResponseEntity.ok("The student with ID:" + updated.getId() + " and Name: " + updated.getName() + " Has been Successfully Updated");
     }
 

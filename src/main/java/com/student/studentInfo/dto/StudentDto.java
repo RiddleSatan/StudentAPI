@@ -4,12 +4,16 @@ import jakarta.annotation.Nonnull;
 
 public class StudentDto {
 
-    
+    private Long id;
     private String name;
 
     private int age;
     private String email;
     private String course;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -41,6 +45,10 @@ public class StudentDto {
 
     public String getCourse() {
         return this.course;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
 

@@ -1,11 +1,14 @@
 package com.student.studentInfo.service;
 
+import com.student.studentInfo.dto.StudentDto;
 import com.student.studentInfo.model.StudentModel;
 import com.student.studentInfo.repository.StudentRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -14,23 +17,27 @@ import java.util.Optional;
 public class StudentService {
 
     @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
     private StudentRepository studentRepository;
 
     public List<StudentModel> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public StudentModel getStudent(Long id) {
-        return studentRepository.findById(id)
+    public StudentDto getStudent(Long id) {
+        StudentModel student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with ID:" + id + "not found"));
+        return convertEntityToDto(student);
     }
 
-    public StudentModel addStudent(StudentModel student) {
+    public StudentDto addStudent(StudentModel student) {
         StudentModel newStudent = studentRepository.save(student);
-        return newStudent;
+
+        return convertEntityToDto(newStudent);
     }
 
-    public StudentModel updateStudent(Long id, StudentModel updatedStudent) {
+    public StudentDto updateStudent(Long id, StudentModel updatedStudent) {
         StudentModel existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with id: " + id + "not found"));
 
@@ -38,7 +45,9 @@ public class StudentService {
         existingStudent.setAge(updatedStudent.getAge());
         existingStudent.setEmail(updatedStudent.getEmail());
         existingStudent.setCourse(updatedStudent.getCourse());
-        return studentRepository.save(existingStudent);
+        studentRepository.save(existingStudent);
+
+        return convertEntityToDto(existingStudent);
     }
 
 
@@ -59,6 +68,12 @@ public class StudentService {
         } catch (Exception e) {
             return "Something Went Wrong" + e;
         }
+    }
+
+    private StudentDto convertEntityToDto(StudentModel studentModel) {
+        StudentDto studentDto = new StudentDto();
+        studentDto = modelMapper.map(studentModel, StudentDto.class);
+        return studentDto;
     }
 
 }
