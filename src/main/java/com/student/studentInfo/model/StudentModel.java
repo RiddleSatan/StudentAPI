@@ -1,6 +1,7 @@
 package com.student.studentInfo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -26,13 +27,19 @@ public class StudentModel {
     )
     private Long id;
 
+    @NotNull(message = "Name cannot be Null")
+    @Size(min = 2, message = "Name must be at least 2 characters")
     private String name;
+
+    @Min(value = 18, message = "Age must be at least 18")
+    @Max(value = 60, message = "Age must be less than or equal to 60")
     private int age;
 
     @Column(name = "course_enrolled")
     private String course;
 
     //    @Column(unique = true)
+    @Email
     private String email;
 
     @Column(name = "account_number")
