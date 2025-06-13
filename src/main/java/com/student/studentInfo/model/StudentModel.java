@@ -35,7 +35,8 @@ public class StudentModel {
     //    @Column(unique = true)
     private String email;
 
-    private int accountNumber;
+    @Column(name = "account_number")
+    private int accountNo;
 
     @CreationTimestamp
     private LocalDateTime dateCreated;
@@ -46,10 +47,12 @@ public class StudentModel {
     public StudentModel() {
     }
 
-    public StudentModel(String name, int age, String course) {
+    public StudentModel(String name, int age, String course, String email, int accountNo) {
         this.name = name;
         this.age = age;
         this.course = course;
+        this.email = email;
+        this.accountNo = accountNo;
     }
 
     public void setName(String name) {
@@ -68,8 +71,8 @@ public class StudentModel {
         this.email = email;
     }
 
-    public void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setAccountNo(int accountNo) {
+        this.accountNo = accountNo;
     }
 
     public String getName() {
@@ -92,8 +95,8 @@ public class StudentModel {
         return this.email;
     }
 
-    public int getAccountNumber() {
-        return this.accountNumber;
+    public int getAccountNo() {
+        return this.accountNo;
     }
 
 }

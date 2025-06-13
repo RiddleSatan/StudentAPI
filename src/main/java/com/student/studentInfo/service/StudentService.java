@@ -32,6 +32,7 @@ public class StudentService {
     }
 
     public StudentDto addStudent(StudentModel student) {
+        System.out.println("this is the account number of student: " + student.getAccountNo());
         StudentModel newStudent = studentRepository.save(student);
 
         return convertEntityToDto(newStudent);
