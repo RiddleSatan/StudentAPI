@@ -38,7 +38,7 @@ public class StudentModel {
     @Column(name = "course_enrolled")
     private String course;
 
-    //    @Column(unique = true)
+    //        @Column(unique = true)
     @Email
     private String email;
 

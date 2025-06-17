@@ -5,6 +5,7 @@ import com.student.studentInfo.dto.StudentDto;
 import com.student.studentInfo.model.StudentModel;
 import com.student.studentInfo.repository.StudentRepository;
 import com.student.studentInfo.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -38,18 +39,18 @@ public class StudentController {
 
 
     @PostMapping(path = "add")
-    public StudentDto addStudent(@RequestBody StudentModel student) {
+    public StudentDto addStudent(@RequestBody @Valid StudentModel student) {
 
         return studentService.addStudent(student);
     }
 
     @PutMapping(path = "update/{id}")
-    public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody StudentModel updatedStudent) {
+    public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody @Valid StudentModel updatedStudent) {
 
         StudentDto updated = studentService.updateStudent(id, updatedStudent);
         return ResponseEntity.ok("The student with ID:" + updated.getId() + " and Name: " + updated.getName() + " Has been Successfully Updated");
     }
-
+    
 
     @DeleteMapping(path = "delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
