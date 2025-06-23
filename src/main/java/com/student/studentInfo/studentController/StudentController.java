@@ -1,4 +1,4 @@
-package com.student.studentInfo;
+package com.student.studentInfo.studentController;
 
 
 import com.student.studentInfo.dto.StudentDto;
@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")
@@ -50,7 +48,7 @@ public class StudentController {
         StudentDto updated = studentService.updateStudent(id, updatedStudent);
         return ResponseEntity.ok("The student with ID:" + updated.getId() + " and Name: " + updated.getName() + " Has been Successfully Updated");
     }
-    
+
 
     @DeleteMapping(path = "delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
