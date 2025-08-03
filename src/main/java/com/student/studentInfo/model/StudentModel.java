@@ -35,8 +35,8 @@ public class StudentModel {
     @Max(value = 60, message = "Age must be less than or equal to 60")
     private int age;
 
-    @Column(name = "course_enrolled")
-    private String course;
+    @Column(name = "CourseId")
+    private Long courseId;
 
     //        @Column(unique = true)
     @Email
@@ -54,10 +54,10 @@ public class StudentModel {
     public StudentModel() {
     }
 
-    public StudentModel(String name, int age, String course, String email, int accountNo) {
+    public StudentModel(String name, int age, Long courseId, String email, int accountNo) {
         this.name = name;
         this.age = age;
-        this.course = course;
+        this.courseId = courseId;
         this.email = email;
         this.accountNo = accountNo;
     }
@@ -70,8 +70,8 @@ public class StudentModel {
         this.age = age;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCourse(Long id) {
+        this.courseId = id;
     }
 
     public void setEmail(String email) {
@@ -90,8 +90,8 @@ public class StudentModel {
         return this.age;
     }
 
-    public String getCourse() {
-        return this.course;
+    public Long getCourseId() {
+        return this.courseId;
     }
 
     public Long getId() {

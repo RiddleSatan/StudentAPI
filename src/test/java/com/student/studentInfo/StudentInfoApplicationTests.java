@@ -9,38 +9,36 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class StudentInfoApplicationTests {
 
-	@Autowired
-  private StudentRepository studentRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
-	@Test
-	void saveMethod() {
-       StudentModel studentModel =  new StudentModel();
-	   studentModel.setName("riddle");
-	   studentModel.setAge(26);
-	   studentModel.setEmail("riddle@tom.com");
-	   studentModel.setCourse("mba");
+    @Test
+    void saveMethod() {
+        StudentModel studentModel = new StudentModel();
+        studentModel.setName("riddle");
+        studentModel.setAge(26);
+        studentModel.setEmail("riddle@tom.com");
+        studentModel.setCourse(3);
 
-	   StudentModel savedObject = studentRepository.save(studentModel);
-		System.out.println("This is the id : "+ savedObject.getId());
-	}
+        StudentModel savedObject = studentRepository.save(studentModel);
+        System.out.println("This is the id : " + savedObject.getId());
+    }
 
-	@Test
-	void updateExisting(){
-		Long id=52L;
+    @Test
+    void updateExisting() {
+        Long id = 52L;
 
-		// `findById(id)` returns an Optional<StudentModel>, so we call `.get()` to extract the actual StudentModel.
+        // `findById(id)` returns an Optional<StudentModel>, so we call `.get()` to extract the actual StudentModel.
 // Be careful: `.get()` will throw NoSuchElementException if the student with the given ID is not found.
-		StudentModel studentModel = studentRepository.findById(id).get();
+        StudentModel studentModel = studentRepository.findById(id).get();
 
 
-		studentModel.setCourse("MBA");
-		studentModel.setAge(69);
+        studentModel.setCourse(3);
+        studentModel.setAge(69);
 
-		studentRepository.save(studentModel);
-		System.out.println("the student info has been updated");
-	}
-
-
+        studentRepository.save(studentModel);
+        System.out.println("the student info has been updated");
+    }
 
 
 }

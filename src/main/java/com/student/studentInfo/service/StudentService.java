@@ -1,13 +1,15 @@
 package com.student.studentInfo.service;
 
-import com.student.studentInfo.dto.StudentDto;
+import com.student.studentInfo.dto.CourseDto;
+import com.student.studentInfo.dto.StudentWithCourseDto;
 import com.student.studentInfo.model.StudentModel;
 import com.student.studentInfo.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
@@ -20,31 +22,38 @@ public class StudentService {
     private ModelMapper modelMapper;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     public List<StudentModel> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    public StudentDto getStudent(Long id) {
+    public StudentWithCourseDto getStudentWithCourse(Long id) {
         StudentModel student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with ID:" + id + "not found"));
-        return convertEntityToDto(student);
+
+        CourseDto course = restTemplate.getForObject("http://localhost:8082/course/getCourse/" + student.getCourseId(), CourseDto.class);
+        StudentWithCourseDto studentWithCourseDto = convertEntityToDto(student);
+        studentWithCourseDto.setCourse(course);
+        return studentWithCourseDto;
     }
 
-    public StudentDto addStudent(StudentModel student) {
+    public StudentModel addStudent(StudentModel student) {
         System.out.println("this is the account number of student: " + student.getAccountNo());
+
         StudentModel newStudent = studentRepository.save(student);
-        return convertEntityToDto(newStudent);
+        return newStudent;
     }
 
-    public StudentDto updateStudent(Long id, StudentModel updatedStudent) {
+    public StudentWithCourseDto updateStudent(Long id, StudentModel updatedStudent) {
         StudentModel existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with id: " + id + "not found"));
 
         existingStudent.setName(updatedStudent.getName());
         existingStudent.setAge(updatedStudent.getAge());
         existingStudent.setEmail(updatedStudent.getEmail());
-        existingStudent.setCourse(updatedStudent.getCourse());
+        existingStudent.setCourse(updatedStudent.getCourseId());
         studentRepository.save(existingStudent);
 
         return convertEntityToDto(existingStudent);
@@ -70,10 +79,57 @@ public class StudentService {
         }
     }
 
-    private StudentDto convertEntityToDto(StudentModel studentModel) {
-        StudentDto studentDto = new StudentDto();
-        studentDto = modelMapper.map(studentModel, StudentDto.class);
+    public List<CourseDto> getAllCourse() {
+        ResponseEntity<List<CourseDto>> response = restTemplate.exchange("http://localhost:8082/course/getAllCourse", HttpMethod.GET, null, new ParameterizedTypeReference<List<CourseDto>>() {
+        });
+        return response.getBody();
+    }
+
+    public ResponseEntity<String> deleteCourse(Long id) {
+        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8082/course/deleteCourse/" + id, HttpMethod.DELETE, null, new ParameterizedTypeReference<String>() {
+                }
+        );
+        return response;
+    }
+
+    public CourseDto getCourseById(Long id) {
+        System.out.println("this is the ID of the course : " + id);
+        CourseDto response = restTemplate.getForObject("http://localhost:8082/course/getCourse/" + id, CourseDto.class);
+        return response;
+    }
+
+    public CourseDto addCourse(CourseDto courseDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<CourseDto> request = new HttpEntity<>(courseDto, headers);
+
+        ResponseEntity<CourseDto> response = restTemplate.exchange("http://localhost:8082/course/addCourse", HttpMethod.POST, request, new ParameterizedTypeReference<CourseDto>() {
+        });
+        return response.getBody();
+    }
+
+    public CourseDto updateCourse(CourseDto courseDto) {
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<CourseDto> request = new HttpEntity<>(courseDto, headers);
+
+        ResponseEntity<CourseDto> response = restTemplate.exchange("http://localhost:8082/course/updateCourse", HttpMethod.PUT, request, new ParameterizedTypeReference<CourseDto>() {
+        });
+        return response.getBody();
+    }
+
+    private StudentWithCourseDto convertEntityToDto(StudentModel studentModel) {
+        StudentWithCourseDto studentDto = new StudentWithCourseDto();
+        studentDto = modelMapper.map(studentModel, StudentWithCourseDto.class);
         return studentDto;
     }
+
+//    private CourseDto covertToCourseDto(CourseDto courseDto) {
+//
+//    }
+
 
 }

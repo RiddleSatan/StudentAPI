@@ -1,15 +1,13 @@
 package com.student.studentInfo.dto;
 
-import jakarta.annotation.Nonnull;
-
-public class StudentDto {
+public class StudentWithCourseDto {
 
     private Long id;
     private String name;
 
     private int age;
     private String email;
-    private String course;
+    private CourseDto course;
 
     public void setId(Long id) {
         this.id = id;
@@ -27,7 +25,7 @@ public class StudentDto {
         this.email = email;
     }
 
-    public void setCourse(String course) {
+    public void setCourse(CourseDto course) {
         this.course = course;
     }
 
@@ -43,7 +41,7 @@ public class StudentDto {
         return this.email;
     }
 
-    public String getCourse() {
+    public CourseDto getCourse() {
         return this.course;
     }
 

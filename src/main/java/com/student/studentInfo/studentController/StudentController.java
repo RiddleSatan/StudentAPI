@@ -1,7 +1,8 @@
 package com.student.studentInfo.studentController;
 
 
-import com.student.studentInfo.dto.StudentDto;
+import com.student.studentInfo.dto.CourseDto;
+import com.student.studentInfo.dto.StudentWithCourseDto;
 import com.student.studentInfo.model.StudentModel;
 import com.student.studentInfo.repository.StudentRepository;
 import com.student.studentInfo.service.StudentService;
@@ -31,21 +32,20 @@ public class StudentController {
     }
 
     @GetMapping(path = "find/{id}")
-    public StudentDto getStudent(@PathVariable Long id) {
-        return studentService.getStudent(id);
+    public StudentWithCourseDto getStudent(@PathVariable Long id) {
+        return studentService.getStudentWithCourse(id);
     }
 
 
     @PostMapping(path = "add")
-    public StudentDto addStudent(@RequestBody @Valid StudentModel student) {
-
+    public StudentModel addStudent(@RequestBody @Valid StudentModel student) {
         return studentService.addStudent(student);
     }
 
     @PutMapping(path = "update/{id}")
     public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody @Valid StudentModel updatedStudent) {
 
-        StudentDto updated = studentService.updateStudent(id, updatedStudent);
+        StudentWithCourseDto updated = studentService.updateStudent(id, updatedStudent);
         return ResponseEntity.ok("The student with ID:" + updated.getId() + " and Name: " + updated.getName() + " Has been Successfully Updated");
     }
 
@@ -58,7 +58,31 @@ public class StudentController {
     @DeleteMapping(path = "deleteAll")
     public String deleteAll() {
         return studentService.deleteAll();
+    }
 
+    @GetMapping(path = "getAllCourse")
+    public List<CourseDto> getAllCourse() {
+        return studentService.getAllCourse();
+    }
+
+    @PostMapping(path = "deleteCourse/{id}")
+    public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
+        return studentService.deleteCourse(id);
+    }
+
+    @GetMapping(path = "getCourse/{id}")
+    public CourseDto getCourseWithId(@PathVariable Long id) {
+        return studentService.getCourseById(id);
+    }
+
+    @PostMapping(path = "addCourse")
+    public CourseDto addCourse(@RequestBody CourseDto courseDto) {
+        return studentService.addCourse(courseDto);
+    }
+
+    @PutMapping(path = "updateCourse")
+    public CourseDto updateCourse(@RequestBody CourseDto course) {
+        return studentService.updateCourse(course);
     }
 
 
