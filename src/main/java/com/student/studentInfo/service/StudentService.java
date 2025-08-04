@@ -33,7 +33,7 @@ public class StudentService {
         StudentModel student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with ID:" + id + "not found"));
 
-        CourseDto course = restTemplate.getForObject("http://localhost:8082/course/getCourse/" + student.getCourseId(), CourseDto.class);
+        CourseDto course = restTemplate.getForObject("http://course-service/course/getCourse/" + student.getCourseId(), CourseDto.class);
         StudentWithCourseDto studentWithCourseDto = convertEntityToDto(student);
         studentWithCourseDto.setCourse(course);
         return studentWithCourseDto;
@@ -80,13 +80,13 @@ public class StudentService {
     }
 
     public List<CourseDto> getAllCourse() {
-        ResponseEntity<List<CourseDto>> response = restTemplate.exchange("http://localhost:8082/course/getAllCourse", HttpMethod.GET, null, new ParameterizedTypeReference<List<CourseDto>>() {
+        ResponseEntity<List<CourseDto>> response = restTemplate.exchange("http://course-service/course/getAllCourse", HttpMethod.GET, null, new ParameterizedTypeReference<List<CourseDto>>() {
         });
         return response.getBody();
     }
 
     public ResponseEntity<String> deleteCourse(Long id) {
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8082/course/deleteCourse/" + id, HttpMethod.DELETE, null, new ParameterizedTypeReference<String>() {
+        ResponseEntity<String> response = restTemplate.exchange("http://course-service/course/deleteCourse/" + id, HttpMethod.DELETE, null, new ParameterizedTypeReference<String>() {
                 }
         );
         return response;
@@ -94,7 +94,7 @@ public class StudentService {
 
     public CourseDto getCourseById(Long id) {
         System.out.println("this is the ID of the course : " + id);
-        CourseDto response = restTemplate.getForObject("http://localhost:8082/course/getCourse/" + id, CourseDto.class);
+        CourseDto response = restTemplate.getForObject("http://course-service/course/getCourse/" + id, CourseDto.class);
         return response;
     }
 
@@ -104,7 +104,7 @@ public class StudentService {
 
         HttpEntity<CourseDto> request = new HttpEntity<>(courseDto, headers);
 
-        ResponseEntity<CourseDto> response = restTemplate.exchange("http://localhost:8082/course/addCourse", HttpMethod.POST, request, new ParameterizedTypeReference<CourseDto>() {
+        ResponseEntity<CourseDto> response = restTemplate.exchange("http://course-service/course/addCourse", HttpMethod.POST, request, new ParameterizedTypeReference<CourseDto>() {
         });
         return response.getBody();
     }
@@ -116,7 +116,7 @@ public class StudentService {
 
         HttpEntity<CourseDto> request = new HttpEntity<>(courseDto, headers);
 
-        ResponseEntity<CourseDto> response = restTemplate.exchange("http://localhost:8082/course/updateCourse", HttpMethod.PUT, request, new ParameterizedTypeReference<CourseDto>() {
+        ResponseEntity<CourseDto> response = restTemplate.exchange("http://course-service/course/updateCourse", HttpMethod.PUT, request, new ParameterizedTypeReference<CourseDto>() {
         });
         return response.getBody();
     }
